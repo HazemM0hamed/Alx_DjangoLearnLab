@@ -13,3 +13,28 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='relationship_app/login.html'), name='login'),
     path('logout/', LogoutView.as_view(template_name='relationship_app/logout.html'), name='logout'),
 ]
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('admin_view/', views.admin_view, name='admin_view'),
+    path('librarian_view/', views.librarian_view, name='librarian_view'),
+    path('member_view/', views.member_view, name='member_view'),
+]
+
+from django.urls import path
+from .views import admin_view
+
+urlpatterns = [
+    path('admin/', admin_view, name='admin_view'),  # For function-based view
+    
+]
+from django.urls import path
+from .views import librarian_view, member_view, LibrarianView, MemberView
+
+urlpatterns = [
+    #path('librarian/', librarian_view, name='librarian_view'),  # For function-based view
+    #path('librarian/', LibrarianView.as_view(), name='librarian_view'),  # For class-based view
+    path('member/', member_view, name='member_view'),  # For function-based view
+    #path('member/', MemberView.as_view(), name='member_view'),  # For class-based view
+]
