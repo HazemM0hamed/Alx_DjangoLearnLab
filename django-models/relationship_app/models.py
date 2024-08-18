@@ -56,12 +56,10 @@ def save_user_profile(sender, instance, **kwargs):
 from django.db import models
 from django.contrib.auth.models import User
 
-class Author(models.Model):
-    name = models.CharField(max_length=100)
-
 class Book(models.Model):
     title = models.CharField(max_length=200)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.CharField(max_length=100)
+    publication_year = models.IntegerField()
 
     class Meta:
         permissions = [
@@ -69,6 +67,7 @@ class Book(models.Model):
             ("can_change_book", "Can change book"),
             ("can_delete_book", "Can delete book"),
         ]
+
 
 
 print("Models file loaded")
