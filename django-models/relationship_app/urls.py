@@ -38,17 +38,14 @@ urlpatterns = [
     path('member/', member_view, name='member_view'),  # For function-based view
     #path('member/', MemberView.as_view(), name='member_view'),  # For class-based view
 ]
-# relationship_app/urls.py
+
 from django.urls import path
-from .views import list_books, LibraryDetailView, add_book, edit_book, delete_book
+from .views import add_book, edit_book, delete_book, list_books
 
 urlpatterns = [
-    path('books/', list_books, name='list_books'),
-    path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),
-    path('book/add/', add_book, name='add_book'),
-    path('book/<int:pk>/edit/', edit_book, name='edit_book'),
-    path('book/<int:pk>/delete/', delete_book, name='delete_book'),
+    path("add_book/", add_book, name="add_book"),  # URL pattern for adding a book
+    path("edit_book/<int:pk>/", edit_book, name="edit_book"),  # URL pattern for editing a book
+    path("delete_book/<int:pk>/", delete_book, name="delete_book"),  # URL pattern for deleting a book
+    path("list_books/", list_books, name="list_books"),  # URL pattern for listing books
 ]
-
-
 
