@@ -38,3 +38,13 @@ urlpatterns = [
     path('member/', member_view, name='member_view'),  # For function-based view
     #path('member/', MemberView.as_view(), name='member_view'),  # For class-based view
 ]
+# relationship_app/urls.py
+from django.urls import path
+from .views import add_book
+from .views import edit_book
+from .views import delete_book
+urlpatterns = [
+    path('add/', add_book, name='add_book'),
+    path('edit/<int:pk>/', edit_book, name='edit_book'),
+    path('delete/<int:pk>/', delete_book, name='delete_book'),
+]
