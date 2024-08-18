@@ -13,3 +13,22 @@ class LibraryDetailView(DetailView):
     model = Library  # Specify the model to use
     template_name = 'relationship_app/library_detail.html'  # Specify the template to use
     context_object_name = 'library'  # The context variable that will be passed to the template
+
+from django.contrib.auth import views as auth_views
+from django.urls import path
+from . import views
+
+# You can also define a custom registration view if needed
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'relationship_app/register.html', {'form': form})
