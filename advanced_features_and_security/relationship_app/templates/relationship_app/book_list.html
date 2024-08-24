@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Books List</h2>
+  <a href="{% url 'add_book' %}">Add New Book</a>
+  <ul>
+    {% for book in books %}
+      <li>
+        <a href="{% url 'view_book' book.pk %}">{{ book.title }}</a>
+        <a href="{% url 'edit_book' book.pk %}">Edit</a>
+        <a href="{% url 'delete_book' book.pk %}">Delete</a>
+      </li>
+    {% empty %}
+      <li>No books available.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

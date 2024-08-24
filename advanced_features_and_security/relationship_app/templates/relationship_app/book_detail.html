@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ book.title }}</h2>
+  <p>Author: {{ book.author }}</p>
+  <p>Publication Year: {{ book.publication_year }}</p>
+  <a href="{% url 'edit_book' book.pk %}">Edit</a>
+  <a href="{% url 'delete_book' book.pk %}">Delete</a>
+  <a href="{% url 'list_books' %}">Back to list</a>
+{% endblock %}
