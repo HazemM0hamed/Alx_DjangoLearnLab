@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5fb)g)0c07z*rfadmph06(eya62)8iot)sh1=62b8)j^081jao'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -48,7 +48,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", 'https://trustedscripts.example.com')
+CSP_STYLE_SRC = ("'self'", 'https://trustedstyles.example.com')
 
 ROOT_URLCONF = 'LibraryProject.urls'
 
@@ -122,3 +126,22 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Prevent the browser from interpreting files as something else
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enable the browser's XSS filter
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevent the site from being framed
+X_FRAME_OPTIONS = 'DENY'
+
+# Ensure cookies are sent over HTTPS only
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+# Use HTTPS in the URL
+SECURE_SSL_REDIRECT = True
+
+# Set a secure HTTP header for cookies
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
