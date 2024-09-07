@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 # Create your models here.
 class Author(models.Model):
     name = models.CharField(max_length=100)
@@ -12,13 +13,21 @@ class Author(models.Model):
 class Book(models.Model) :
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    publication_year = models.IntegerField(default=1900)
+
+    class Meta:
+        permissions = [
+            ("can_add_book", "Can add book"),
+            ("can_change_book", "Can change book"),
+            ("can_delete_book", "Can delete book"),
+        ]
 
     def __str__(self):
         return self.title
 
 class Library(models.Model) :
     name = models.CharField(max_length=200)
-    books = models.ManyToManyField(Book)
+    books = models.ManyToManyField(Book, related_name='libraries')
 
     def __str__(self):
         return self.name
@@ -29,6 +38,7 @@ class Librarian(models.Model):
 
     def __str__(self):
         return self.name
+    
 class UserProfile(models.Model):
     ROLE_CHOICES = [
         ('Admin', 'Admin'),
@@ -51,22 +61,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
-
-# relationship_app/models.py
-from django.db import models
-
-class Book(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.CharField(max_length=100)
-    publication_year = models.IntegerField()
-
-    class Meta:
-        permissions = [
-            ("can_add_book", "Can add book"),
-            ("can_change_book", "Can change book"),
-            ("can_delete_book", "Can delete book"),
-        ]
-
 
 
 print("Models file loaded")

@@ -49,3 +49,15 @@ urlpatterns = [
     path("list_books/", list_books, name="list_books"),  # URL pattern for listing books
 ]
 
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('books/', views.list_books, name='list_books'),
+    path('books/<int:pk>/', views.view_book, name='view_book'),
+    path('books/add/', views.add_book, name='add_book'),
+    path('books/<int:pk>/edit/', views.edit_book, name='edit_book'),
+    path('books/<int:pk>/delete/', views.delete_book, name='delete_book'),
+]
+
+
