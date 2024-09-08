@@ -2,6 +2,38 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
 from .models import Book, Author
+from rest_framework.test import APIClient
+from django.test import TestCase
+
+class BookAPITestCase(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
+        # Create a user
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpassword'
+        )
+
+        # Log in the user
+        self.client.login(username='testuser', password='testpassword')
+
+        # Create a sample book
+        self.book = Book.objects.create(title='Sample Book', author='Author', publication_year=2023)
+
+    def test_get_books_authenticated(self):
+        # Send GET request to the books endpoint
+        response = self.client.get('/api/books/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_book_authenticated(self):
+        # Send POST request to create a new book
+        response = self.client.post('/api/books/', {
+            'title': 'New Book',
+            'author': 'New Author',
+            'publication_year': 2024
+        })
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 class BookAPITests(APITestCase):
 
