@@ -7,11 +7,49 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.db.models import Q
+from taggit.forms import TagWidget
+from . import forms
+
+
 
 # Create your views here.
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']  # Include 'tags' field
+        widgets = {
+            'tags': TagWidget(),  # Use TagWidget for tag input
+        }
+
+def search_posts(request):
+    query = request.GET.get('q', '')
+    if query:
+        posts = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+    else:
+        posts = Post.objects.all()
+    
+    context = {
+        'posts': posts,
+        'query': query,
+    }
+    return render(request, 'blog/search_results.html', context)
+
+class TagDetailView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    
+    def get_queryset(self):
+        tag_name = self.kwargs['tag_name']
+        return Post.objects.filter(tags__name=tag_name)
+    
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
