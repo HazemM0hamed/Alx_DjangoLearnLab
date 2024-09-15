@@ -65,7 +65,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
-    },
+    },  
 ]
 
 WSGI_APPLICATION = 'django_blog.wsgi.application'
@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'django_blog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'your_db_name',  # Database name
+        'USER': 'your_db_user',  # PostgreSQL username
+        'PASSWORD': 'your_db_password',  # PostgreSQL password
+        'HOST': 'localhost',  # Typically 'localhost'
+        'PORT': '5432',  # Default port for PostgreSQL is 5432
     }
 }
 
