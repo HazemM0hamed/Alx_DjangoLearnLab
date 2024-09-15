@@ -5,7 +5,7 @@ from .models import Profile, Post, Comment, Tag
 from taggit.forms import TagField, TagWidget
 
 class PostForm(forms.ModelForm):
-    tags = forms.CharField(widget=TagWidget(), required=False)
+    tags = forms.CharField(widgets=TagWidget(), required=False)
     
     class Meta:
         model = Post
