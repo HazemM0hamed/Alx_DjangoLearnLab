@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    <p>Author: {{ post.author }}</p>
+    <p><a href="{% url 'post-update' post.pk %}">Edit</a></p>
+    <p><a href="{% url 'post-delete' post.pk %}">Delete</a></p>
+    <p><a href="{% url 'post-list' %}">Back to Post List</a></p>
+</body>
+</html>
